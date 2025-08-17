@@ -1,7 +1,46 @@
 import 'package:flutter/material.dart';
+import '../services/user_service.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController nombreCtrl = TextEditingController();
+  final TextEditingController correoCtrl = TextEditingController();
+  final TextEditingController contrasenaCtrl = TextEditingController();
+  final TextEditingController confirmarCtrl = TextEditingController();
+
+  Future<void> handleRegister() async {
+    if (contrasenaCtrl.text != confirmarCtrl.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Las contraseñas no coinciden")),
+      );
+      return;
+    }
+
+    final result = await UserService.registerUser(
+      nombre: nombreCtrl.text,
+      correo: correoCtrl.text,
+      contrasena: contrasenaCtrl.text,
+    );
+
+    if (!mounted) return;
+
+    if (result["user"] != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Usuario registrado: ${result['user']['nombre']}")),
+      );
+      Navigator.pop(context); // Regresa al login
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${result['message']}")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +64,7 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 40),
 
               TextField(
+                controller: nombreCtrl,
                 decoration: InputDecoration(
                   labelText: "Nombre completo",
                   border: OutlineInputBorder(
@@ -36,6 +76,7 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 15),
 
               TextField(
+                controller: correoCtrl,
                 decoration: InputDecoration(
                   labelText: "Email",
                   border: OutlineInputBorder(
@@ -47,6 +88,7 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 15),
 
               TextField(
+                controller: contrasenaCtrl,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: "Contraseña",
@@ -59,6 +101,7 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 15),
 
               TextField(
+                controller: confirmarCtrl,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: "Confirmar contraseña",
@@ -81,12 +124,7 @@ class RegisterScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Cuenta creada con éxito")),
-                    );
-                    Navigator.pop(context); // 👈 regresa al login
-                  },
+                  onPressed: handleRegister,
                   child: const Text(
                     "Registrarse",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
