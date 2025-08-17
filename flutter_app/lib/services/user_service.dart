@@ -32,4 +32,31 @@ class UserService {
       return {"message": "Connection error: ${e.toString()}"};
     }
   }
+
+  static Future<Map<String, dynamic>> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final url = Uri.parse("$baseUrl/login");
+
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": email,
+          "password": password,
+        }),
+      );
+
+      if (response.body.isEmpty) {
+        return {"message": "No response from server"};
+      }
+
+      final responseData = jsonDecode(response.body);
+      return responseData;
+    } catch (e) {
+      return {"message": "Connection error: ${e.toString()}"};
+    }
+  }
 }
