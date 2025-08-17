@@ -70,7 +70,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushNamed(context, '/disponibilidad');
                 },
                 child: const Text(
                   "Iniciar Sesión",

@@ -64,8 +64,10 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               );
             },
           );
+        } else {
+        Navigator.pushNamed(context, '/exam_question');
         }
-      } else {
+    } else {
         resultado = "Por favor completa todos los campos correctamente.";
       }
     });

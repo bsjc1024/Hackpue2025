@@ -40,6 +40,7 @@ class ExamQuestionScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
+                    Navigator.pushNamed(context, '/exam');
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Elegiste hacer el examen de prueba")),
                     );

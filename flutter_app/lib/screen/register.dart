@@ -128,7 +128,7 @@ class RegisterScreen extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Cuenta creada con éxito")),
                     );
-                    Navigator.pop(context);
+                    Navigator.pushReplacementNamed(context, '/login');
                   },
                   child: const Text(
                     "Registrarse",
