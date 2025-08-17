@@ -6,11 +6,7 @@ class UniversityQuestionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Pregunta"),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
+      backgroundColor: const Color(0xFF1B475D), 
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Center(
@@ -18,13 +14,13 @@ class UniversityQuestionScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "¿Sabes qué universidad quieres entrar?",
+                "¿Sabes a qué universidad quieres entrar?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
+                  color: Color(0xFFFFF5D0), 
+                  ),
               ),
               const SizedBox(height: 40),
 
@@ -33,8 +29,8 @@ class UniversityQuestionScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xFFFAD564),
+                    foregroundColor: const Color(0xFF1B475D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -45,8 +41,8 @@ class UniversityQuestionScreen extends StatelessWidget {
                     );
                   },
                   child: const Text(
-                    "Sí, sé qué universidad quiero",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    "Sí, ya tengo una en mente",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -57,8 +53,8 @@ class UniversityQuestionScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xFFFAD564),
+                    foregroundColor: const Color(0xFF1B475D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

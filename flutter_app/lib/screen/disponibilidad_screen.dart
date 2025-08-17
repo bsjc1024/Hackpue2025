@@ -8,20 +8,23 @@ class DisponibilidadScreen extends StatefulWidget {
 }
 
 class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
-  final TextEditingController semanasController = TextEditingController();
+  final TextEditingController mesesController = TextEditingController();
   final TextEditingController diasController = TextEditingController();
   final TextEditingController horasController = TextEditingController();
+  final TextEditingController carreraController = TextEditingController();
+  final TextEditingController universidadController = TextEditingController();
+
 
   String resultado = "";
 
   void calcularDisponibilidad() {
-    final semanas = int.tryParse(semanasController.text) ?? 0;
+    final meses = int.tryParse(mesesController.text) ?? 0;
     final dias = int.tryParse(diasController.text) ?? 0;
     final horas = int.tryParse(horasController.text) ?? 0;
 
     setState(() {
-      if (semanas > 0 && dias > 0 && horas > 0) {
-        final totalHoras = semanas * dias * horas;
+      if (meses > 0 && dias > 0 && horas > 0) {
+        final totalHoras = meses * 4 * dias * horas;
         resultado =
             "Disponibilidad total: $totalHoras horas";
 
@@ -94,7 +97,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
             children: [
               const SizedBox(height: 20),
               Text(
-                "¿En cuántas semanas presentarás el examen?",
+                "¿En cuantos meses presentarás el examen?",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSans(
                   color: const Color(0xFFfff5d0),
@@ -103,7 +106,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               ),
               const SizedBox(height: 8),
               TextField(
-                controller: semanasController,
+                controller: mesesController,
                 keyboardType: TextInputType.number,
                 style: const TextStyle(color: Color(0xFFFFF5D0)),
                 textAlign: TextAlign.center,
@@ -167,6 +170,57 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                   ),
                 ),
               ),
+              
+              const SizedBox(height: 24),
+              Text(
+                "¿Qué carrera deseas estudiar?",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                color: Color(0xFFFFF5D0),
+                fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: carreraController,
+                style: const TextStyle(color: Color(0xFFFFF5D0)),
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                  hintText: "Ejemplo: Medicina",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: Colors.white10,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 24),
+              Text(
+                "¿En qué universidad quieres ingresar?",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                color: Color(0xFFFFF5D0),
+                fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: universidadController,
+                style: const TextStyle(color: Color(0xFFFFF5D0)),
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                  hintText: "Ejemplo: UNAM",
+                  hintStyle: TextStyle(color: Colors.grey),
+                  filled: true,
+                  fillColor: Colors.white10,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 40),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
