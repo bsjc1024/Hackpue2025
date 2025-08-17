@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/questions_provider.dart';
 import '../providers/user_provider.dart';
 import '../services/gemini_service.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,21 +14,41 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Examen de Prueba',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => QuestionsProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Examen de Prueba',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+        ),
+        home: const ExamenView(),
+        routes: {
+          '/home': (context) => const HomeScreen(), // Add your home screen here
+        },
       ),
-      home: const ExamenView(),
+    );
+  }
+}
+
+// Placeholder for HomeScreen - replace with your actual home screen
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Home')),
+      body: const Center(child: Text('Welcome to the Home Screen!')),
     );
   }
 }
 
 // ---------------- EXAMEN ----------------
-// ignore_for_file: deprecated_member_use
-
 class ExamenView extends StatefulWidget {
   const ExamenView({super.key});
 
@@ -40,7 +60,6 @@ class _ExamenViewState extends State<ExamenView> {
   int _preguntaActual = 0;
 
   final List<Map<String, dynamic>> _preguntas = [
-
     {
       "pregunta": "En la fotosíntesis se rompe una molécula de H2O para producir inicialmente:",
       "opciones": ["Monóxido de carbono", "Oxígeno", "Glucosa", "Dióxido de carbono"],
@@ -155,7 +174,6 @@ class _ExamenViewState extends State<ExamenView> {
         "Sintomática"
       ],
       "respuestaCorrecta": "Apelativa"
-
     }
   ];
 
@@ -198,97 +216,96 @@ class _ExamenViewState extends State<ExamenView> {
   Widget build(BuildContext context) {
     final pregunta = _preguntas[_preguntaActual];
 
-return Scaffold(
-  backgroundColor: const Color(0xFF1B475D), // Fondo de toda la vista
-  appBar: AppBar(
-    backgroundColor: const Color(0xFF1B475D), // Fondo igual al body
-    elevation: 0, // Quita sombra
-    centerTitle: true, // Centrar título
-    title: Text(
-      "Examen de ubicación",
-      style: GoogleFonts.righteous(
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-        color: const Color.fromARGB(255, 188, 201, 69),
-      ),
-    ),
-  ),
-  body: Padding(
-    padding: const EdgeInsets.all(16.0),
-
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Pregunta ${_preguntaActual + 1}/${_preguntas.length}",
-          style: GoogleFonts.openSans(
-            fontSize: 18,
+    return Scaffold(
+      backgroundColor: const Color(0xFF1B475D), // Fondo de toda la vista
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF1B475D), // Fondo igual al body
+        elevation: 0, // Quita sombra
+        centerTitle: true, // Centrar título
+        title: Text(
+          "Examen de ubicación",
+          style: GoogleFonts.righteous(
+            fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: const Color.fromARGB(255, 247, 239, 209),
+            color: const Color.fromARGB(255, 188, 201, 69),
           ),
         ),
-        const SizedBox(height: 20),
-
-        // Texto de la pregunta
-        Text(
-          pregunta["pregunta"],
-          style: GoogleFonts.openSans(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: const Color.fromARGB(255, 247, 239, 209),
-          ),
-        ),
-        const SizedBox(height: 20),
-
-        // Lista de opciones
-        ...pregunta["opciones"].map<Widget>((opcion) {
-          return RadioListTile<String>(
-            activeColor: const Color(0xFFB4BD62), // color del radio
-            title: Text(
-              opcion,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Pregunta ${_preguntaActual + 1}/${_preguntas.length}",
               style: GoogleFonts.openSans(
-                fontSize: 18, // un poco más pequeño que la pregunta
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
                 color: const Color.fromARGB(255, 247, 239, 209),
               ),
             ),
-            value: opcion,
-            groupValue: _respuestaSeleccionada,
-            onChanged: (value) {
-              setState(() {
-                _respuestaSeleccionada = value;
-              });
-            },
-          );
-        }).toList(),
+            const SizedBox(height: 20),
 
-        const SizedBox(height: 20),
-
-        // Botón de siguiente
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF8EBD9D), // color botón 
-              foregroundColor: const Color(0xFF1B475D), // color texto
-              padding: const EdgeInsets.symmetric(vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: _respuestaSeleccionada == null ? null : _siguientePregunta,
-            child: Text(
-              "Siguiente",
-              style: GoogleFonts.righteous(
+            // Texto de la pregunta
+            Text(
+              pregunta["pregunta"],
+              style: GoogleFonts.openSans(
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
+                color: const Color.fromARGB(255, 247, 239, 209),
               ),
             ),
-          ),
+            const SizedBox(height: 20),
+
+            // Lista de opciones
+            ...pregunta["opciones"].map<Widget>((opcion) {
+              return RadioListTile<String>(
+                activeColor: const Color(0xFFB4BD62), // color del radio
+                title: Text(
+                  opcion,
+                  style: GoogleFonts.openSans(
+                    fontSize: 18, // un poco más pequeño que la pregunta
+                    color: const Color.fromARGB(255, 247, 239, 209),
+                  ),
+                ),
+                value: opcion,
+                groupValue: _respuestaSeleccionada,
+                onChanged: (value) {
+                  setState(() {
+                    _respuestaSeleccionada = value;
+                  });
+                },
+              );
+            }).toList(),
+
+            const SizedBox(height: 20),
+
+            // Botón de siguiente
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF8EBD9D), // color botón 
+                  foregroundColor: const Color(0xFF1B475D), // color texto
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: _respuestaSeleccionada == null ? null : _siguientePregunta,
+                child: Text(
+                  _preguntaActual == _preguntas.length - 1 ? "Finalizar" : "Siguiente",
+                  style: GoogleFonts.righteous(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    ),
-  ),
-);
+      ),
+    );
   }
 }
 
@@ -314,26 +331,38 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
     setState(() {
       _isGeneratingPlan = true;
     });
-  
-
-    final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-
-    // Verificar que tenemos todos los datos necesarios
-    if (!questionsProvider.isCompleteForAPI || userProvider.userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Faltan datos para generar el plan de estudio"),
-          backgroundColor: Colors.red,
-        ),
-      );
-      setState(() {
-        _isGeneratingPlan = false;
-      });
-      return;
-    }
 
     try {
+      final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      // Verificar que tenemos todos los datos necesarios
+      if (!questionsProvider.isCompleteForAPI) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Faltan datos del perfil para generar el plan de estudio"),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() {
+          _isGeneratingPlan = false;
+        });
+        return;
+      }
+
+      if (userProvider.userId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Usuario no identificado. Por favor inicia sesión nuevamente."),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() {
+          _isGeneratingPlan = false;
+        });
+        return;
+      }
+
       final result = await GeminiService.generateStudyPlan(
         carrera: questionsProvider.carrera,
         universidad: questionsProvider.universidad,
@@ -350,8 +379,9 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
       if (result['success'] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(result['message'] ?? 'Planes generados exitosamente'),
+            content: Text(result['message'] ?? 'Plan de estudio generado exitosamente'),
             backgroundColor: const Color(0xFF8EBD9D),
+            duration: const Duration(seconds: 3),
           ),
         );
         
@@ -366,6 +396,7 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
           SnackBar(
             content: Text("Error: ${result['error'] ?? 'Error desconocido'}"),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
           ),
         );
       }
@@ -375,6 +406,7 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
         SnackBar(
           content: Text("Error de conexión: $e"),
           backgroundColor: Colors.red,
+          duration: const Duration(seconds: 5),
         ),
       );
     }
@@ -416,99 +448,176 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
     double porcentajeBiologia = (correctasBiologia / 6) * 100;
     double porcentajeEspanol = (correctasEspanol / 6) * 100;
 
-  final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
-  questionsProvider.setSkillLevelsFromExam(porcentajeEspanol, porcentajeBiologia);
+    // Actualizar los niveles en el provider
+    final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
+    questionsProvider.setSkillLevelsFromExam(porcentajeEspanol, porcentajeBiologia);
 
     return Scaffold(
       backgroundColor: const Color(0xFF1B475D),
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "¡Examen terminado!",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.righteous(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFFFAD564),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "¡Examen terminado!",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.righteous(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFFFAD564),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-              // ---------- BIOLOGÍA ----------
-              Text(
-                "Biología",
-                style: GoogleFonts.righteous(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF8EBD9D),
+                // ---------- BIOLOGÍA ----------
+                Text(
+                  "Biología",
+                  style: GoogleFonts.righteous(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF8EBD9D),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Correctas: $correctasBiologia",
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                const SizedBox(height: 10),
+                Text(
+                  "Correctas: $correctasBiologia",
+                  style: GoogleFonts.openSans(
+                    fontSize: 20,
+                    color: const Color(0xFFFFF5D0),
+                  ),
                 ),
-              ),
-              Text(
-                "Incorrectas: $incorrectasBiologia",
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                Text(
+                  "Incorrectas: $incorrectasBiologia",
+                  style: GoogleFonts.openSans(
+                    fontSize: 20,
+                    color: const Color(0xFFFFF5D0),
+                  ),
                 ),
-              ),
-              Text(
-                "Calificación: ${porcentajeBiologia.toStringAsFixed(1)}%",
-                style: GoogleFonts.righteous(
-                  fontSize: 22,
-                  color: const Color(0xFFFAD564),
+                Text(
+                  "Calificación: ${porcentajeBiologia.toStringAsFixed(1)}%",
+                  style: GoogleFonts.righteous(
+                    fontSize: 22,
+                    color: const Color(0xFFFAD564),
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 40),
+                const SizedBox(height: 40),
 
-              // ---------- ESPAÑOL ----------
-              Text(
-                "Español",
-                style: GoogleFonts.righteous(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF8EBD9D),
+                // ---------- ESPAÑOL ----------
+                Text(
+                  "Español",
+                  style: GoogleFonts.righteous(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF8EBD9D),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Correctas: $correctasEspanol",
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                const SizedBox(height: 10),
+                Text(
+                  "Correctas: $correctasEspanol",
+                  style: GoogleFonts.openSans(
+                    fontSize: 20,
+                    color: const Color(0xFFFFF5D0),
+                  ),
                 ),
-              ),
-              Text(
-                "Incorrectas: $incorrectasEspanol",
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                Text(
+                  "Incorrectas: $incorrectasEspanol",
+                  style: GoogleFonts.openSans(
+                    fontSize: 20,
+                    color: const Color(0xFFFFF5D0),
+                  ),
                 ),
-              ),
-              Text(
-                "Calificación: ${porcentajeEspanol.toStringAsFixed(1)}%",
-                style: GoogleFonts.righteous(
-                  fontSize: 22,
-                  color: const Color(0xFFFAD564),
+                Text(
+                  "Calificación: ${porcentajeEspanol.toStringAsFixed(1)}%",
+                  style: GoogleFonts.righteous(
+                    fontSize: 22,
+                    color: const Color(0xFFFAD564),
+                  ),
                 ),
-              ),
-              ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              },
-              child: const Text("Iniciar"))
-            ],
+
+                const SizedBox(height: 50),
+
+                // Botones de acción
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF8EBD9D),
+                      foregroundColor: const Color(0xFF1B475D),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: _isGeneratingPlan ? null : _generateStudyPlan,
+                    child: _isGeneratingPlan
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Color(0xFF1B475D),
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                "Generando plan...",
+                                style: GoogleFonts.righteous(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text(
+                            "Generar Plan de Estudio",
+                            style: GoogleFonts.righteous(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Botón alternativo para ir directamente al home
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Color(0xFF8EBD9D)),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/home',
+                        (route) => false,
+                      );
+                    },
+                    child: Text(
+                      "Ir al Inicio",
+                      style: GoogleFonts.righteous(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF8EBD9D),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
