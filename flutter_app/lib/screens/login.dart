@@ -1,5 +1,8 @@
+// lib/screens/login.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../services/user_service.dart';
+import '../providers/user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,20 +14,33 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailCtrl = TextEditingController();
   final TextEditingController passwordCtrl = TextEditingController();
+  bool _isLoading = false;
 
   Future<void> handleLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     final result = await UserService.loginUser(
       email: emailCtrl.text,
       password: passwordCtrl.text,
     );
 
+    setState(() {
+      _isLoading = false;
+    });
+
     if (!mounted) return;
 
     if (result["user"] != null) {
+      // Set user data in provider
+      Provider.of<UserProvider>(context, listen: false).setUser(result['user']);
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Bienvenido, ${result['user']['name']}")),
       );
-      // Navegar a la pantalla principal, reemplazando login
+      
+      // Navigate to home screen
       Navigator.pushReplacementNamed(context, '/home');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -101,11 +117,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: handleLogin,
-                child: const Text(
-                  "Iniciar Sesión",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
+                onPressed: _isLoading ? null : handleLogin,
+                child: _isLoading 
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : const Text(
+                      "Iniciar Sesión",
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
               ),
             ),
             const SizedBox(height: 15),
