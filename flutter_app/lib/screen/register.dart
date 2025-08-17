@@ -7,9 +7,9 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1B475D), // Fondo de toda la vista
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255), // Fondo de toda la vista
   appBar: AppBar(
-    backgroundColor: const Color(0xFF1B475D), // Fondo igual al body
+    backgroundColor: const Color.fromARGB(255, 255, 255, 255), // Fondo igual al body
     elevation: 0, // Quita sombra
     centerTitle: true, // Centrar título
     title: Text(

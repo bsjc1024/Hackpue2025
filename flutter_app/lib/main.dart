@@ -3,6 +3,10 @@ import 'screen/login_screen.dart';
 import 'screen/register.dart';
 import 'screen/disponibilidad_screen.dart';
 import 'screen/exam_ubication.dart';
+import 'screen/home_screen.dart';
+import 'screen/espanol_screen.dart';
+import 'screen/biologia_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +30,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),        
         '/disponibilidad': (context) => const DisponibilidadScreen(),
         '/exam': (context) => const ExamenView(),
+        '/home': (context) => const HomeScreen(),
+        '/espanol': (context) => const EspanolScreen(),
+        '/biologia': (context) => const BiologiaScreen(),
       },
     );
   }

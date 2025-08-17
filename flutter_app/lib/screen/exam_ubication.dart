@@ -413,6 +413,11 @@ class ResultadoScreen extends StatelessWidget {
                   color: const Color(0xFFFAD564),
                 ),
               ),
+              ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: const Text("Iniciar"))
             ],
           ),
         ),
