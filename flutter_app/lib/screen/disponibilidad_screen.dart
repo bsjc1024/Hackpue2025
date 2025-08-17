@@ -74,6 +74,28 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
   
   }
 
+  final List<String> carreras = [
+    "Ingeniería en Sistemas",
+    "Medicina",
+    "Derecho",
+    "Arquitectura",
+    "Administración",
+    "Diseño Gráfico"
+  ];
+
+   final List<String> universidades = [
+    "UNAM",
+    "IPN",
+    "UAM",
+    "BUAP",
+    "ITESM",
+    "UDLAP"
+  ];
+
+  String? carreraSeleccionada;
+  String? universidadSeleccionada;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,20 +205,34 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: carreraController,
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                  hintText: "Ejemplo: Medicina",
-                  hintStyle: TextStyle(color: Colors.grey),
+              DropdownButtonFormField<String>(
+                dropdownColor: const Color(0xFF002B5B), // fondo azul
+                initialValue: carreraSeleccionada,
+                decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white10,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
+                    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    ),
                 ),
+                hint: const Text(
+                  "Selecciona una carrera",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                style: const TextStyle(color: Color(0xFFFFF5D0)), // color del texto
+                items: carreras.map((carrera) {
+                  return DropdownMenuItem(
+                  value: carrera,
+                  child: Text(carrera, style: const TextStyle(color: Color(0xFFFFF5D0))),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    carreraSeleccionada = value;
+                  });
+                },
               ),
+
 
               const SizedBox(height: 24),
               Text(
@@ -208,19 +244,32 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              TextField(
-                controller: universidadController,
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                  hintText: "Ejemplo: UNAM",
-                  hintStyle: TextStyle(color: Colors.grey),
-                  filled: true,
-                  fillColor: Colors.white10,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+              DropdownButtonFormField<String>(
+                dropdownColor: const Color(0xFF002B5B),
+                initialValue: universidadSeleccionada,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white10,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                ),
+                  hint: const Text(
+                    "Selecciona una universidad",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  style: const TextStyle(color: Color(0xFFFFF5D0)),
+                  items: universidades.map((uni) {
+                    return DropdownMenuItem(
+                      value: uni,
+                      child: Text(uni, style: const TextStyle(color: Color(0xFFFFF5D0))),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      universidadSeleccionada = value;
+                    });
+                  },
               ),
 
               const SizedBox(height: 40),
