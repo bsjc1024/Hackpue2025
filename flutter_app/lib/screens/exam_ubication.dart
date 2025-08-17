@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Examen de Prueba',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       home: const ExamenView(),
     );
@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
 }
 
 // ---------------- EXAMEN ----------------
+// ignore_for_file: deprecated_member_use
+
 class ExamenView extends StatefulWidget {
   const ExamenView({super.key});
 

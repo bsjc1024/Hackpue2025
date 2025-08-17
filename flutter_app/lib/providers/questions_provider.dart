@@ -7,9 +7,9 @@ class QuestionsProvider with ChangeNotifier {
   String _universidad = '';
   String _nivelEspanol = '';
   String _nivelBiologia = '';
-  int _dias = 5;
-  int _horas = 2;
-  int _meses = 3;
+  int _dias = 0;
+  int _horas = 0;
+  int _meses = 0;
 
   // Getters
   String get carrera => _carrera;
