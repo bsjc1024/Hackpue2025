@@ -18,10 +18,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String serverMessage = "Waiting for server response...";
 
-  Future<void> fetchMessage() async {
-    final url = Uri.parse("http://localhost:3000/");
+  Future<void> sendData() async {
+    final url = Uri.parse("http://localhost:3000/data");
 
-    final response = await http.get(url);
+    final response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"nombre": "Luis", "edad": 30}),
+    );
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -38,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    fetchMessage();
+    sendData();
   }
 
   @override
