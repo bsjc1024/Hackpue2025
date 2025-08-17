@@ -5,48 +5,7 @@ import '../providers/user_provider.dart';
 import '../services/gemini_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => QuestionsProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Examen de Prueba',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
-        home: const ExamenView(),
-        routes: {
-          '/home': (context) => const HomeScreen(), // Add your home screen here
-        },
-      ),
-    );
-  }
-}
-
-// Placeholder for HomeScreen - replace with your actual home screen
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: const Center(child: Text('Welcome to the Home Screen!')),
-    );
-  }
-}
+// Remove the MyApp class and HomeScreen placeholder - they're not needed here
 
 // ---------------- EXAMEN ----------------
 class ExamenView extends StatefulWidget {
@@ -336,6 +295,11 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
       final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
+      // Debug print
+      print("User ID: ${userProvider.userId}");
+      print("Form data: ${questionsProvider.formData}");
+      print("Is complete for API: ${questionsProvider.isCompleteForAPI}");
+
       // Verificar que tenemos todos los datos necesarios
       if (!questionsProvider.isCompleteForAPI) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -376,6 +340,8 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
 
       if (!mounted) return;
 
+      print("Gemini service result: $result"); // Debug print
+
       if (result['success'] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -402,6 +368,7 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
       }
     } catch (e) {
       if (!mounted) return;
+      print("Exception in _generateStudyPlan: $e"); // Debug print
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Error de conexión: $e"),
