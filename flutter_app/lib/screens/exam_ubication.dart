@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import '../providers/questions_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -331,6 +333,12 @@ class ResultadoScreen extends StatelessWidget {
     double porcentajeBiologia = (correctasBiologia / 6) * 100;
     double porcentajeEspanol = (correctasEspanol / 6) * 100;
 
+  final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
+  questionsProvider.setSkillLevelsFromExam(porcentajeEspanol, porcentajeBiologia);
+
+
+    print(questionsProvider.formData);
+
     return Scaffold(
       backgroundColor: const Color(0xFF1B475D),
       body: Center(
@@ -415,6 +423,11 @@ class ResultadoScreen extends StatelessWidget {
                   color: const Color(0xFFFAD564),
                 ),
               ),
+              ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: const Text("Iniciar"))
             ],
           ),
         ),

@@ -28,6 +28,8 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
       horas: int.tryParse(horasController.text) ?? 0,
     );
 
+    print(questionsProvider.formData); // Debug print to check data
+    
     // Validate that all fields are filled
     if (!questionsProvider.isFormComplete) {
       ScaffoldMessenger.of(context).showSnackBar(
