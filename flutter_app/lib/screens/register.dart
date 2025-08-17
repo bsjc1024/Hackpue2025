@@ -9,13 +9,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController nombreCtrl = TextEditingController();
-  final TextEditingController correoCtrl = TextEditingController();
-  final TextEditingController contrasenaCtrl = TextEditingController();
+  final TextEditingController nameCtrl = TextEditingController();
+  final TextEditingController emailCtrl = TextEditingController();
+  final TextEditingController passwordCtrl = TextEditingController();
   final TextEditingController confirmarCtrl = TextEditingController();
 
   Future<void> handleRegister() async {
-    if (contrasenaCtrl.text != confirmarCtrl.text) {
+    if (passwordCtrl.text != confirmarCtrl.text) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Las contraseñas no coinciden")),
       );
@@ -23,16 +23,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     final result = await UserService.registerUser(
-      nombre: nombreCtrl.text,
-      correo: correoCtrl.text,
-      contrasena: contrasenaCtrl.text,
+      name: nameCtrl.text,
+      email: emailCtrl.text,
+      password: passwordCtrl.text,
     );
 
     if (!mounted) return;
 
     if (result["user"] != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Usuario registrado: ${result['user']['nombre']}")),
+        SnackBar(content: Text("Usuario registrado: ${result['user']['name']}")),
       );
       Navigator.pop(context); // Regresa al login
     } else {
@@ -64,9 +64,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 40),
 
               TextField(
-                controller: nombreCtrl,
+                controller: nameCtrl,
                 decoration: InputDecoration(
-                  labelText: "Nombre completo",
+                  labelText: "name completo",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -76,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 15),
 
               TextField(
-                controller: correoCtrl,
+                controller: emailCtrl,
                 decoration: InputDecoration(
                   labelText: "Email",
                   border: OutlineInputBorder(
@@ -88,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 15),
 
               TextField(
-                controller: contrasenaCtrl,
+                controller: passwordCtrl,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: "Contraseña",

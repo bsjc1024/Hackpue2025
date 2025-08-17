@@ -5,9 +5,9 @@ class UserService {
   static const String baseUrl = "http://localhost:5000/users";
 
   static Future<Map<String, dynamic>> registerUser({
-    required String nombre,
-    required String correo,
-    required String contrasena,
+    required String name,
+    required String email,
+    required String password,
   }) async {
     final url = Uri.parse("$baseUrl/register");
 
@@ -15,9 +15,9 @@ class UserService {
       url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "name": nombre,
-        "email": correo,
-        "password": contrasena,
+        "name": name,
+        "email": email,
+        "password": password,
       }),
     );
 
