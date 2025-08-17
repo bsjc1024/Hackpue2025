@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'screens/login.dart';
 import 'screens/register.dart';
 import 'screens/disponibilidad_screen.dart';
+import 'screens/exam_ubication.dart';
 import 'providers/user_provider.dart';
 import 'providers/questions_provider.dart';
 
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const LoginScreen(),
           '/register': (context) => const RegisterScreen(),
           '/disponibilidad': (context) => const DisponibilidadScreen(),
+          '/exam_ubication': (context) => const ExamenView(),
         },
       ),
     );

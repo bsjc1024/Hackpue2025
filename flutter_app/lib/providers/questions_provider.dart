@@ -1,4 +1,4 @@
-// lib/providers/questionnaire_provider.dart
+// lib/providers/questions_provider.dart
 import 'package:flutter/material.dart';
 
 class QuestionsProvider with ChangeNotifier {
@@ -20,8 +20,17 @@ class QuestionsProvider with ChangeNotifier {
   int get horas => _horas;
   int get meses => _meses;
 
-  // Check if form is complete
+  // Check if basic form is complete (for availability screen)
   bool get isFormComplete {
+    return _carrera.isNotEmpty &&
+           _universidad.isNotEmpty &&
+           _dias > 0 &&
+           _horas > 0 &&
+           _meses > 0;
+  }
+
+  // Check if complete form is ready for Gemini API
+  bool get isCompleteForAPI {
     return _carrera.isNotEmpty &&
            _universidad.isNotEmpty &&
            _nivelEspanol.isNotEmpty &&
@@ -42,6 +51,11 @@ class QuestionsProvider with ChangeNotifier {
       'horas': _horas,
       'meses': _meses,
     };
+  }
+
+  // Calculate total hours
+  int get totalHours {
+    return _meses * 4 * _dias * _horas; // meses * semanas * dias * horas
   }
 
   // Setters
@@ -106,9 +120,9 @@ class QuestionsProvider with ChangeNotifier {
     _universidad = '';
     _nivelEspanol = '';
     _nivelBiologia = '';
-    _dias = 5;
-    _horas = 2;
-    _meses = 3;
+    _dias = 0;
+    _horas = 0;
+    _meses = 0;
     notifyListeners();
   }
 
@@ -118,9 +132,32 @@ class QuestionsProvider with ChangeNotifier {
     _universidad = data['universidad'] ?? '';
     _nivelEspanol = data['nivel_español'] ?? '';
     _nivelBiologia = data['nivel_biologia'] ?? '';
-    _dias = data['dias'] ?? 5;
-    _horas = data['horas'] ?? 2;
-    _meses = data['meses'] ?? 3;
+    _dias = data['dias'] ?? 0;
+    _horas = data['horas'] ?? 0;
+    _meses = data['meses'] ?? 0;
+    notifyListeners();
+  }
+
+  // Method to set skill levels based on exam results
+  void setSkillLevelsFromExam(double spanishPercentage, double biologyPercentage) {
+    // Set Spanish level based on percentage
+    if (spanishPercentage >= 80) {
+      _nivelEspanol = 'Avanzado';
+    } else if (spanishPercentage >= 60) {
+      _nivelEspanol = 'Intermedio';
+    } else {
+      _nivelEspanol = 'Básico';
+    }
+
+    // Set Biology level based on percentage
+    if (biologyPercentage >= 80) {
+      _nivelBiologia = 'Avanzado';
+    } else if (biologyPercentage >= 60) {
+      _nivelBiologia = 'Intermedio';
+    } else {
+      _nivelBiologia = 'Básico';
+    }
+
     notifyListeners();
   }
 }

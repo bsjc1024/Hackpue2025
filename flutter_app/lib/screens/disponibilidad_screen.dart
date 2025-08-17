@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../providers/questions_provider.dart';
 
 class DisponibilidadScreen extends StatefulWidget {
   const DisponibilidadScreen({super.key});
@@ -14,64 +16,74 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
   final TextEditingController carreraController = TextEditingController();
   final TextEditingController universidadController = TextEditingController();
 
+  void _saveDataAndProceed() {
+    final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
+    
+    // Save all the data to the provider
+    questionsProvider.updateFormData(
+      carrera: carreraSeleccionada ?? '',
+      universidad: universidadSeleccionada ?? '',
+      meses: int.tryParse(mesesController.text) ?? 0,
+      dias: int.tryParse(diasController.text) ?? 0,
+      horas: int.tryParse(horasController.text) ?? 0,
+    );
 
-  String resultado = "";
+    // Validate that all fields are filled
+    if (!questionsProvider.isFormComplete) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "Por favor completa todos los campos correctamente.",
+            style: GoogleFonts.openSans(color: Colors.white),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
-  void calcularDisponibilidad() {
-    final meses = int.tryParse(mesesController.text) ?? 0;
-    final dias = int.tryParse(diasController.text) ?? 0;
-    final horas = int.tryParse(horasController.text) ?? 0;
-
-    setState(() {
-      if (meses > 0 && dias > 0 && horas > 0) {
-        final totalHoras = meses * 4 * dias * horas;
-        resultado =
-            "Disponibilidad total: $totalHoras horas";
-
-        if (totalHoras < 20) {
-          // Mostrar alerta
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                backgroundColor: const Color(0xFF0D47A1), // mismo azul de fondo
-                title: Text(
-                  "Atención",
+    // Check if study time is sufficient (optional validation)
+    final totalHoras = questionsProvider.meses * 4 * questionsProvider.dias * questionsProvider.horas;
+    
+    if (totalHoras < 20) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: const Color(0xFF0D47A1),
+            title: Text(
+              "Atención",
+              style: GoogleFonts.righteous(
+                fontSize: 22,
+                color: const Color(0xFFFAD564),
+              ),
+            ),
+            content: Text(
+              "Recomendamos aumentar el número de semanas, días u horas para una mejor preparación.\n\nDisponibilidad total: $totalHoras horas",
+              style: GoogleFonts.openSans(
+                fontSize: 16,
+                color: const Color(0xFFFFF5D0),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Entendido",
                   style: GoogleFonts.righteous(
-                    fontSize: 22,
-                    color: const Color(0xFFFAD564),
-                  ),
-                ),
-                content: Text(
-                  "Recomendamos aumentar el número de semanas, días u horas para una mejor preparación.",
-                  style: GoogleFonts.openSans(
+                    color: const Color(0xFF8EBD9D),
                     fontSize: 16,
-                    color: const Color(0xFFFFF5D0),
                   ),
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      "Entendido",
-                      style: GoogleFonts.righteous(
-                        color: const Color(0xFF8EBD9D),
-                        fontSize: 16,
-                      ),
-                    ),
-                  )
-                ],
-              );
-            },
+              )
+            ],
           );
-        } else {
-        Navigator.pushNamed(context, '/exam_question');
-        }
+        },
+      );
     } else {
-        resultado = "Por favor completa todos los campos correctamente.";
-      }
-    });
-  
+      // Navigate to the next screen (you'll need to implement this route)
+      Navigator.pushNamed(context, '/exam_ubication');
+    }
   }
 
   final List<String> carreras = [
@@ -83,7 +95,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
     "Diseño Gráfico"
   ];
 
-   final List<String> universidades = [
+  final List<String> universidades = [
     "UNAM",
     "IPN",
     "UAM",
@@ -94,7 +106,6 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
 
   String? carreraSeleccionada;
   String? universidadSeleccionada;
-
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +218,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 dropdownColor: const Color(0xFF002B5B), // fondo azul
-                initialValue: carreraSeleccionada,
+                value: carreraSeleccionada,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white10,
@@ -233,7 +244,6 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                 },
               ),
 
-
               const SizedBox(height: 24),
               Text(
                 "¿En qué universidad quieres ingresar?",
@@ -246,7 +256,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
                 dropdownColor: const Color(0xFF002B5B),
-                initialValue: universidadSeleccionada,
+                value: universidadSeleccionada,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white10,
@@ -282,26 +292,51 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                onPressed: calcularDisponibilidad,
+                onPressed: _saveDataAndProceed,
                 child: Text(
-                  "Calcular",
+                  "Continuar",
                   style: GoogleFonts.righteous(
                     fontSize: 20,
                     color: Colors.black,
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              if (resultado.isNotEmpty)
-                Text(
-                  resultado,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.openSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFfad564),
-                  ),
-                ),
+              const SizedBox(height: 20),
+              // Show current data preview (optional)
+              Consumer<QuestionsProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isFormComplete) {
+                    return Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white10,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Resumen de tu información:",
+                            style: GoogleFonts.righteous(
+                              color: const Color(0xFFFAD564),
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Carrera: ${provider.carrera}\nUniversidad: ${provider.universidad}\nTiempo: ${provider.meses} meses, ${provider.dias} días/semana, ${provider.horas} horas/día",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.openSans(
+                              color: const Color(0xFFFFF5D0),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
             ],
           ),
         ),
@@ -309,4 +344,3 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
     );
   }
 }
-//a
