@@ -11,12 +11,12 @@ const {
 router.post('/generate-plan', generateResponse);
 
 // Ruta para obtener progreso del usuario (puede filtrar por materia con ?subject=español o ?subject=biología)
-router.get('/progress/:userId', getUserProgress);
+router.get('/progress/:userEmail', getUserProgress);
 
 // Ruta para obtener plan de una materia específica
-router.get('/subject/:userId/:subject', getSubjectPlan);
+router.get('/subject/:userEmail/:subject', getSubjectPlan);
 
 // Ruta para actualizar progreso de lección
-router.put('/progress/:userId', updateLessonProgress);
+router.put('/progress/:userEmail', updateLessonProgress);
 
 module.exports = router;

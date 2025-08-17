@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextField(
                 controller: nameCtrl,
                 decoration: InputDecoration(
-                  labelText: "name completo",
+                  labelText: "Nombre completo",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

@@ -296,7 +296,7 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
       // Debug print
-      print("User ID: ${userProvider.userId}");
+      print("User ID: ${userProvider.userEmail}");
       print("Form data: ${questionsProvider.formData}");
       print("Is complete for API: ${questionsProvider.isCompleteForAPI}");
 
@@ -314,7 +314,7 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
         return;
       }
 
-      if (userProvider.userId == null) {
+      if (userProvider.userEmail == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Usuario no identificado. Por favor inicia sesión nuevamente."),
@@ -335,13 +335,13 @@ class _ResultadoScreenState extends State<ResultadoScreen> {
         dias: questionsProvider.dias,
         horas: questionsProvider.horas,
         meses: questionsProvider.meses,
-        userId: userProvider.userId!,
+        userEmail: userProvider.userEmail!,
       );
 
       if (!mounted) return;
 
       print("Gemini service result: $result"); // Debug print
-
+      print("Carrera: ${questionsProvider.carrera}");
       if (result['success'] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

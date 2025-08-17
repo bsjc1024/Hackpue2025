@@ -13,7 +13,7 @@ class GeminiService {
     required int dias,
     required int horas,
     required int meses,
-    required String userId,
+    required String userEmail,
   }) async {
     try {
       final url = Uri.parse("$baseUrl/generate-plan");
@@ -29,7 +29,7 @@ class GeminiService {
           "dias": dias,
           "horas": horas,
           "meses": meses,
-          "userId": userId,
+          "userEmail": userEmail,
         }),
       );
 
@@ -45,9 +45,9 @@ class GeminiService {
   }
 
   // Obtener progreso general del usuario
-  static Future<Map<String, dynamic>> getUserProgress(String userId) async {
+  static Future<Map<String, dynamic>> getUserProgress(String userEmail) async {
     try {
-      final url = Uri.parse("$baseUrl/progress/$userId");
+      final url = Uri.parse("$baseUrl/progress/$userEmail");
 
       final response = await http.get(url);
 
@@ -64,11 +64,11 @@ class GeminiService {
 
   // Obtener progreso de una materia específica
   static Future<Map<String, dynamic>> getSubjectProgress(
-    String userId, 
+    String userEmail, 
     String subject // 'español' o 'biología'
   ) async {
     try {
-      final url = Uri.parse("$baseUrl/progress/$userId?subject=$subject");
+      final url = Uri.parse("$baseUrl/progress/$userEmail?subject=$subject");
 
       final response = await http.get(url);
 
@@ -85,11 +85,11 @@ class GeminiService {
 
   // Obtener plan de una materia específica
   static Future<Map<String, dynamic>> getSubjectPlan(
-    String userId, 
+    String userEmail, 
     String subject // 'español' o 'biología'
   ) async {
     try {
-      final url = Uri.parse("$baseUrl/subject/$userId/$subject");
+      final url = Uri.parse("$baseUrl/subject/$userEmail/$subject");
 
       final response = await http.get(url);
 
@@ -106,12 +106,12 @@ class GeminiService {
 
   // Actualizar progreso de lección
   static Future<Map<String, dynamic>> updateLessonProgress({
-    required String userId,
+    required String userEmail,
     required int lessonIndex,
     required String subject, // 'español' o 'biología'
   }) async {
     try {
-      final url = Uri.parse("$baseUrl/progress/$userId");
+      final url = Uri.parse("$baseUrl/progress/$userEmail");
 
       final response = await http.put(
         url,

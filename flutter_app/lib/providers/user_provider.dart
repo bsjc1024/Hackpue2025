@@ -6,7 +6,6 @@ class UserProvider with ChangeNotifier {
 
   Map<String, dynamic>? get user => _user;
   bool get isLoggedIn => _isLoggedIn;
-  String? get userId => _user?['_id'];
   String? get userName => _user?['name'];
   String? get userEmail => _user?['email'];
 

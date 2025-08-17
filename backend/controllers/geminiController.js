@@ -13,11 +13,11 @@ const generateResponse = async (req, res) => {
             dias, 
             horas, 
             meses,
-            userId 
+            userEmail 
         } = req.body;
 
         // Validación de datos requeridos
-        if (!carrera || !universidad || !nivel_español || !nivel_biologia || !dias || !horas || !meses || !userId) {
+        if (!carrera || !universidad || !nivel_español || !nivel_biologia || !dias || !horas || !meses || !userEmail) {
             return res.status(400).json({ 
                 error: "Faltan datos requeridos para generar el plan de estudio" 
             });
@@ -129,7 +129,7 @@ const generateResponse = async (req, res) => {
 
         IMPORTANTE: Responde ÚNICAMENTE con el JSON válido para BIOLOGÍA, sin texto adicional`;
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
         // Generar ambos planes de estudio en paralelo
         const [resultEspanol, resultBiologia] = await Promise.all([
@@ -157,7 +157,7 @@ const generateResponse = async (req, res) => {
         }
 
         // Buscar al usuario y actualizar con ambos planes de estudio
-        const user = await User.findById(userId);
+        const user = await User.findOne({ email: userEmail });
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
@@ -201,10 +201,10 @@ const generateResponse = async (req, res) => {
 // Función para obtener el progreso del usuario (actualizada para manejar múltiples materias)
 const getUserProgress = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const { userEmail } = req.params;
         const { subject } = req.query; // 'español' o 'biología'
 
-        const user = await User.findById(userId).select('studyRoutes lastLesson name');
+        const user = await User.findOne({ email: userEmail }).select('studyRoutes lastLesson name');
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
@@ -267,10 +267,10 @@ const getUserProgress = async (req, res) => {
 // Función para actualizar el progreso de lección (actualizada)
 const updateLessonProgress = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const { userEmail } = req.params;
         const { lessonIndex, subject } = req.body;
 
-        const user = await User.findById(userId);
+        const user = await User.findOne({ email: userEmail });
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
@@ -298,9 +298,9 @@ const updateLessonProgress = async (req, res) => {
 // Función adicional para obtener una materia específica
 const getSubjectPlan = async (req, res) => {
     try {
-        const { userId, subject } = req.params;
+        const { userEmail, subject } = req.params;
 
-        const user = await User.findById(userId).select('studyRoutes name');
+        const user = await User.findOne({ email: userEmail }).select('studyRoutes name');
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
         }
