@@ -9,7 +9,13 @@ const QuestionSchema = new mongoose.Schema({
 
 const LessonSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    questions: [QuestionSchema]
+    questions: [QuestionSchema],
+    resources: [ResourceSchema]
+});
+
+const ResourceSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    url: { type: String, required: true }
 });
 
 const StudyRouteSchema = new mongoose.Schema({
@@ -21,7 +27,8 @@ const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    studyRoutes: [StudyRouteSchema]
+    studyRoutes: [StudyRouteSchema],
+    lastLesson: {type: int, default: 0}
 });
 
 userSchema.pre("save", async function (next) {
