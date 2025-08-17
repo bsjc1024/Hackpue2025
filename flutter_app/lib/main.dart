@@ -1,6 +1,7 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'screens/exam_ubication.dart';
 import 'screens/login.dart';
 import 'screens/register.dart';
 import 'providers/user_provider.dart';
@@ -23,12 +24,13 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
         ),
-        home: Consumer<UserProvider>(
-          builder: (context, userProvider, child) {
-            // Check if user is logged in
-            return userProvider.isLoggedIn ? const LoginScreen() : const LoginScreen();
-          },
-        ),
+        home: const ExamenView(),
+        // home: Consumer<UserProvider>(
+        //   builder: (context, userProvider, child) {
+        //     // Check if user is logged in
+        //     return userProvider.isLoggedIn ? const LoginScreen() : const LoginScreen();
+        //   },
+        // ),
         routes: {
           '/login': (context) => const LoginScreen(),
           '/register': (context) => const RegisterScreen(),
