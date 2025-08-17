@@ -1,10 +1,27 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const QuestionSchema = new mongoose.Schema({
+    questionText: { type: String, required: true },
+    answers: [{ type: String, required: true }],
+    correctAnswerIndex: { type: Number, required: true },
+});
+
+const LessonSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    questions: [QuestionSchema]
+});
+
+const StudyRouteSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    lessons: [LessonSchema]
+});
+
 const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
+    studyRoutes: [StudyRouteSchema]
 });
 
 userSchema.pre("save", async function (next) {
