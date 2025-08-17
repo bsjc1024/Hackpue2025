@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
 }
 
 // ---------------- EXAMEN ----------------
+// ignore_for_file: deprecated_member_use
+
 class ExamenView extends StatefulWidget {
   const ExamenView({super.key});
 
