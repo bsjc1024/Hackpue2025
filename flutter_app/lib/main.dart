@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screen/login_screen.dart'; 
 import 'screen/register.dart';
-import 'screen/exam_question_screen.dart';
 import 'screen/disponibilidad_screen.dart';
 import 'screen/exam_ubication.dart';
 
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
         '/login': (context) => const LoginScreen(),        
         '/disponibilidad': (context) => const DisponibilidadScreen(),
-        '/exam_question': (context) => const  ExamQuestionScreen(),
         '/exam': (context) => const ExamenView(),
       },
     );

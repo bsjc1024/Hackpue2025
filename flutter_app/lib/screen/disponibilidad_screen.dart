@@ -64,9 +64,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               );
             },
           );
-        } else {
-        Navigator.pushNamed(context, '/exam_question');
-        }
+        } 
     } else {
         resultado = "Por favor completa todos los campos correctamente.";
       }
@@ -293,19 +291,43 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               ),
               const SizedBox(height: 30),
               if (resultado.isNotEmpty)
-                Text(
-                  resultado,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.openSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFfad564),
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      resultado,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.openSans(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFfad564),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF8ebd9d),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/exam');
+                      },
+                      child: Text(
+                        "Tomar la prueba",
+                        style: GoogleFonts.righteous(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
             ],
           ),
-        ),
-      ),
-    );
+      )),
+      );
+    }
   }
-}
