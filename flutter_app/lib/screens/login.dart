@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/user_service.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key}); // 👈 Aquí agregamos el key
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -21,16 +21,16 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!mounted) return;
 
     if (result["user"] != null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Bienvenido, ${result['name']}")),
-    );
-    // Navegar a la pantalla principal, reemplazando login
-    Navigator.pushReplacementNamed(context, '/home');
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error: ${result['message']}")),
-    );
-  }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Bienvenido, ${result['user']['name']}")),
+      );
+      // Navegar a la pantalla principal, reemplazando login
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${result['message']}")),
+      );
+    }
   }
 
   @override

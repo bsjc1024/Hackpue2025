@@ -35,32 +35,37 @@ exports.registerUser = async (req, res) => {
 
 // Login user
 exports.loginUser = async (req, res) => {
-      const {email, password } = req.body;
+    try {
+      const { email, password } = req.body;
   
       // Validate required fields
       if (!email || !password) {
         return res.status(400).json({ message: "All fields are required" });
       }
   
-      // Check if user already exists
+      // Check if user exists
       const existingUser = await User.findOne({ email });
       if (!existingUser) {
         return res.status(400).json({ message: "User not registered" });
       }
   
-        // Check password
-        const isMatch = await existingUser.comparePassword(password);
-        if (!isMatch) {
-          return res.status(400).json({ message: "Invalid password" });
+      // Check password
+      const isMatch = await existingUser.comparePassword(password);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid password" });
+      }
+  
+      res.status(200).json({
+        message: "Login successful",
+        user: {
+          id: existingUser._id,
+          name: existingUser.name,
+          email: existingUser.email,
         }
-        res.status(200).json({
-            message: "Login successful",
-            user: {
-                id: existingUser._id,
-                name: existingUser.name,
-                email: existingUser.email,
-            }
-            });
+      });
+    } catch (err) {
+      res.status(500).json({ message: "Server error", error: err.message });
+    }
   };
 
 
