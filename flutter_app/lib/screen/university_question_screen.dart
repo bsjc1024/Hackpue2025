@@ -70,7 +70,7 @@ class UniversityQuestionScreen extends StatelessWidget {
                   },
                   child: const Text(
                     "No, todavía no sé",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
