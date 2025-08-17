@@ -66,6 +66,70 @@ class _HomeScreenState extends State<HomeScreen> {
     await _loadUserProgress();
   }
 
+  // Navigate to subject detail screen
+  Future<void> _navigateToSubject(String subject) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    
+    try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            backgroundColor: Color(0xFF1B475D),
+            content: Row(
+              children: [
+                CircularProgressIndicator(color: Color(0xFF8EBD9D)),
+                SizedBox(width: 20),
+                Text(
+                  "Cargando recursos...",
+                  style: TextStyle(color: Color(0xFFFFF5D0)),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+      // Get detailed subject plan
+      final result = await GeminiService.getSubjectPlan(
+        userProvider.userEmail!, 
+        subject
+      );
+
+      Navigator.pop(context); // Close loading dialog
+
+      if (result['success'] == true && result['studyPlan'] != null) {
+        // Navigate to resources screen with subject data
+        Navigator.pushNamed(
+          context,
+          '/recursos',
+          arguments: {
+            'subject': subject,
+            'studyPlan': result['studyPlan'],
+            'userName': userProvider.userName,
+          },
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error al cargar plan de $subject: ${result['error'] ?? 'Error desconocido'}"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      Navigator.pop(context); // Close loading dialog if it's open
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error de conexión: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
@@ -350,14 +414,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: InkWell(
         onTap: () {
-          // Navigate to subject detail screen (you'll need to implement this)
-          print("Navigating to $subject details");
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Próximamente: Detalles de $subject"),
-              backgroundColor: accentColor,
-            ),
-          );
+          // Navigate to subject resources
+          _navigateToSubject(subject.toString().toLowerCase());
         },
         borderRadius: BorderRadius.circular(15),
         child: Padding(

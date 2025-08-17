@@ -5,6 +5,7 @@ import 'screens/login.dart';
 import 'screens/register.dart';
 import 'screens/disponibilidad_screen.dart';
 import 'screens/exam_ubication.dart';
+import 'screens/biologia_screen.dart'; // This is actually the resources screen
 import 'providers/user_provider.dart';
 import 'providers/questions_provider.dart';
 import 'screens/home_screen.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
           '/disponibilidad': (context) => const DisponibilidadScreen(),
           '/exam_ubication': (context) => const ExamenView(),
           '/home': (context) => const HomeScreen(),
+          '/recursos': (context) => const RecursosScreen(),
         },
       ),
     );
