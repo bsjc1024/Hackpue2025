@@ -10,9 +10,13 @@ app.use(express.json());
 // Conectar MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+  useUnifiedTopology: true,
+})
+.then(() => {
+  console.log(" Conectado a MongoDB Atlas");
+  app.listen(5000, () => console.log("Servidor corriendo en puerto 5000"));
+})
+.catch((err) => console.error(" Error al conectar a MongoDB:", err));
 
 // Importar rutas
 const userRoutes = require('./routes/users');
