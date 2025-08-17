@@ -1,5 +1,7 @@
 import 'package:provider/provider.dart';
 import '../providers/questions_provider.dart';
+import '../providers/user_provider.dart';
+import '../services/gemini_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -291,7 +293,7 @@ return Scaffold(
 }
 
 // ---------------- RESULTADOS ----------------
-class ResultadoScreen extends StatelessWidget {
+class ResultadoScreen extends StatefulWidget {
   final List<Map<String, dynamic>> preguntas;
   final List<String?> respuestasUsuario;
 
@@ -302,6 +304,87 @@ class ResultadoScreen extends StatelessWidget {
   });
 
   @override
+  State<ResultadoScreen> createState() => _ResultadoScreenState();
+}
+
+class _ResultadoScreenState extends State<ResultadoScreen> {
+  bool _isGeneratingPlan = false;
+
+  Future<void> _generateStudyPlan() async {
+    setState(() {
+      _isGeneratingPlan = true;
+    });
+  
+
+    final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    // Verificar que tenemos todos los datos necesarios
+    if (!questionsProvider.isCompleteForAPI || userProvider.userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Faltan datos para generar el plan de estudio"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      setState(() {
+        _isGeneratingPlan = false;
+      });
+      return;
+    }
+
+    try {
+      final result = await GeminiService.generateStudyPlan(
+        carrera: questionsProvider.carrera,
+        universidad: questionsProvider.universidad,
+        nivelEspanol: questionsProvider.nivelEspanol,
+        nivelBiologia: questionsProvider.nivelBiologia,
+        dias: questionsProvider.dias,
+        horas: questionsProvider.horas,
+        meses: questionsProvider.meses,
+        userId: userProvider.userId!,
+      );
+
+      if (!mounted) return;
+
+      if (result['success'] == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result['message'] ?? 'Planes generados exitosamente'),
+            backgroundColor: const Color(0xFF8EBD9D),
+          ),
+        );
+        
+        // Navegar al home
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/home',
+          (route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: ${result['error'] ?? 'Error desconocido'}"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error de conexión: $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+
+    setState(() {
+      _isGeneratingPlan = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     int correctasBiologia = 0;
     int incorrectasBiologia = 0;
@@ -309,8 +392,8 @@ class ResultadoScreen extends StatelessWidget {
     int incorrectasEspanol = 0;
 
     // Recorremos preguntas
-    for (int i = 0; i < preguntas.length; i++) {
-      bool esCorrecta = respuestasUsuario[i] == preguntas[i]['respuestaCorrecta'];
+    for (int i = 0; i < widget.preguntas.length; i++) {
+      bool esCorrecta = widget.respuestasUsuario[i] == widget.preguntas[i]['respuestaCorrecta'];
 
       if (i < 6) {
         // Preguntas 0 a 5 → Biología
