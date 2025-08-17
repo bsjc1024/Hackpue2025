@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
+        textTheme: GoogleFonts.nunitoTextTheme(),
       ),
       home: const ExamenView(),
     );
@@ -193,32 +194,35 @@ class _ExamenViewState extends State<ExamenView> {
     final pregunta = _preguntas[_preguntaActual];
 
 return Scaffold(
-  backgroundColor: const Color(0xFF1B475D), // Fondo de toda la vista
+  backgroundColor: Colors.white, // 👈 Fondo blanco
   appBar: AppBar(
-    backgroundColor: const Color(0xFF1B475D), // Fondo igual al body
-    elevation: 0, // Quita sombra
-    centerTitle: true, // Centrar título
-    title: Text(
-      "Examen de ubicación",
-      style: GoogleFonts.righteous(
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-        color: const Color.fromARGB(255, 188, 201, 69),
-      ),
-    ),
+    backgroundColor: Colors.white,
+    elevation: 0,
+    iconTheme: const IconThemeData(color: Color(0xFF2E282A)), // color flecha
   ),
   body: Padding(
     padding: const EdgeInsets.all(16.0),
-
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          "Pregunta ${_preguntaActual + 1}/${_preguntas.length}",
-          style: GoogleFonts.openSans(
-            fontSize: 18,
+          "Examen de ubicación",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.freeman(
+            fontSize: 42,
             fontWeight: FontWeight.bold,
-            color: const Color.fromARGB(255, 247, 239, 209),
+            color: const Color(0xFF2E282A),
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        Text(
+          "Pregunta ${_preguntaActual + 1}/${_preguntas.length}",
+          style: GoogleFonts.robotoCondensed(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF2E282A),
           ),
         ),
         const SizedBox(height: 20),
@@ -226,44 +230,75 @@ return Scaffold(
         // Texto de la pregunta
         Text(
           pregunta["pregunta"],
-          style: GoogleFonts.openSans(
-            fontSize: 20,
+          style: GoogleFonts.robotoCondensed(
+            fontSize: 24,
             fontWeight: FontWeight.w600,
-            color: const Color.fromARGB(255, 247, 239, 209),
+            color: const Color(0xFF2E282A),
           ),
         ),
         const SizedBox(height: 20),
 
-        // Lista de opciones
+        // Opciones con contorno
         ...pregunta["opciones"].map<Widget>((opcion) {
-          return RadioListTile<String>(
-            activeColor: const Color(0xFFB4BD62), // color del radio
-            title: Text(
-              opcion,
-              style: GoogleFonts.openSans(
-                fontSize: 18, // un poco más pequeño que la pregunta
-                color: const Color.fromARGB(255, 247, 239, 209),
-              ),
-            ),
-            value: opcion,
-            groupValue: _respuestaSeleccionada,
-            onChanged: (value) {
+          final bool isSelected = _respuestaSeleccionada == opcion;
+
+          return GestureDetector(
+            onTap: () {
               setState(() {
-                _respuestaSeleccionada = value;
+                _respuestaSeleccionada = opcion;
               });
             },
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: isSelected ? const Color(0xFF76B041) : const Color(0xFFE6C200), // verde o amarillo
+                  width: 3, // 👈 borde grueso
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  // Círculo indicador
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isSelected
+                          ? const Color(0xFF76B041)
+                          : const Color(0xFFE6C200), // verde o amarillo
+                    ),
+                    child: isSelected
+                        ? const Icon(Icons.check, size: 18, color: Colors.white) // palomita
+                        : null,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      opcion,
+                      style: GoogleFonts.robotoCondensed(
+                        fontSize: 22,
+                        color: const Color(0xFF2E282A),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }).toList(),
 
         const SizedBox(height: 20),
 
-        // Botón de siguiente
+        // Botón siguiente
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF8EBD9D), // color botón 
-              foregroundColor: const Color(0xFF1B475D), // color texto
+              backgroundColor: const Color(0xFFE4572E), // rojo
+              foregroundColor: Colors.white, // texto blanco
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -272,8 +307,8 @@ return Scaffold(
             onPressed: _respuestaSeleccionada == null ? null : _siguientePregunta,
             child: Text(
               "Siguiente",
-              style: GoogleFonts.righteous(
-                fontSize: 20,
+              style: GoogleFonts.freeman(
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -283,6 +318,8 @@ return Scaffold(
     ),
   ),
 );
+
+
   }
 }
 
@@ -330,7 +367,7 @@ class ResultadoScreen extends StatelessWidget {
     double porcentajeEspanol = (correctasEspanol / 6) * 100;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1B475D),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -340,10 +377,10 @@ class ResultadoScreen extends StatelessWidget {
               Text(
                 "¡Examen terminado!",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.righteous(
-                  fontSize: 30,
+                style: GoogleFonts.freeman(
+                  fontSize: 58,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFFFAD564),
+                  color: const Color(0xFFE4572E),
                 ),
               ),
               const SizedBox(height: 30),
@@ -351,32 +388,32 @@ class ResultadoScreen extends StatelessWidget {
               // ---------- BIOLOGÍA ----------
               Text(
                 "Biología",
-                style: GoogleFonts.righteous(
-                  fontSize: 26,
+                style: GoogleFonts.freeman(
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF8EBD9D),
+                  color: const Color(0xFF76B041),
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 "Correctas: $correctasBiologia",
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                style: GoogleFonts.robotoCondensed(
+                  fontSize: 24,
+                  color: const Color(0xFF17BEBB),
                 ),
               ),
               Text(
                 "Incorrectas: $incorrectasBiologia",
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                style: GoogleFonts.robotoCondensed(
+                  fontSize: 24,
+                  color: const Color(0xFF17BEBB),
                 ),
               ),
               Text(
                 "Calificación: ${porcentajeBiologia.toStringAsFixed(1)}%",
-                style: GoogleFonts.righteous(
+                style: GoogleFonts.freeman(
                   fontSize: 22,
-                  color: const Color(0xFFFAD564),
+                  color: const Color(0xFF76B041),
                 ),
               ),
 
@@ -385,40 +422,58 @@ class ResultadoScreen extends StatelessWidget {
               // ---------- ESPAÑOL ----------
               Text(
                 "Español",
-                style: GoogleFonts.righteous(
-                  fontSize: 26,
+                style: GoogleFonts.freeman(
+                  fontSize: 40,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF8EBD9D),
+                  color: const Color(0xFF76B041),
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 "Correctas: $correctasEspanol",
                 style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                  fontSize: 24,
+                  color: const Color(0xFF17BEBB),
                 ),
               ),
               Text(
                 "Incorrectas: $incorrectasEspanol",
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  color: const Color(0xFFFFF5D0),
+                style: GoogleFonts.robotoCondensed(
+                  fontSize: 24,
+                  color: const Color(0xFF17BEBB),
                 ),
               ),
               Text(
                 "Calificación: ${porcentajeEspanol.toStringAsFixed(1)}%",
-                style: GoogleFonts.righteous(
+                style: GoogleFonts.freeman(
                   fontSize: 22,
-                  color: const Color(0xFFFAD564),
+                  color: const Color(0xFF76B041),
                 ),
               ),
-              ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              },
-              child: const Text("Iniciar"))
-            ],
+              
+              const SizedBox(height: 30),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF2E282A),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/home');
+                      },
+                      child: Text(
+                        "Iniciar",
+                        style: GoogleFonts.freeman(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+              
+              ],
           ),
         ),
       ),

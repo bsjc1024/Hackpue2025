@@ -6,46 +6,85 @@ class EspanolScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Plan de estudio - Español")),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Table(
-          columnWidths: const {
-            0: FlexColumnWidth(2),
-            1: FlexColumnWidth(1),
-          },
-          children: const [
-            TableRow(children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Temas", style: TextStyle(fontWeight: FontWeight.bold)),
+        child: Column(
+          children: [
+            // Centra las lecciones verticalmente
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min, // evita que ocupe todo el espacio
+                  crossAxisAlignment: CrossAxisAlignment.center, // centra horizontalmente
+                  children: [
+                    // Título
+                    const Text(
+                      "Recursos",
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2E282A), 
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Lecciones como cajas
+                    _buildLessonBox("Lección 1"),
+                    _buildLessonBox("Lección 2"),
+                    _buildLessonBox("Lección 3"),
+                    _buildLessonBox("Lección 4"),
+                    _buildLessonBox("Lección 5"),
+                  ],
+                ),
               ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Horas por semana", style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+
+            // Botón siguiente en la parte inferior
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, "/siguiente");
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF3498DB), // azul brillante
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: const Text(
+                  "Siguiente",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ]),
-            TableRow(children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Lectura y comprensión"),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("5"),
-              ),
-            ]),
-            TableRow(children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Gramática y ortografía"),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("4"),
-              ),
-            ]),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // Widget para las cajas de lecciones
+  Widget _buildLessonBox(String text) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: const Color(0xFFECF0F1), // gris claro
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFBDC3C7)), // borde suave
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 18,
+          color: Color(0xFF2C3E50), // gris oscuro
         ),
       ),
     );

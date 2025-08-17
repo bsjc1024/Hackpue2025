@@ -1,127 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+class RegistroScreen extends StatelessWidget {
+  const RegistroScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255), // Fondo de toda la vista
-  appBar: AppBar(
-    backgroundColor: const Color.fromARGB(255, 255, 255, 255), // Fondo igual al body
-    elevation: 0, // Quita sombra
-    centerTitle: true, // Centrar título
-    title: Text(
-      "Registro",
-      style: GoogleFonts.righteous(
-        fontSize: 35,
-        fontWeight: FontWeight.bold,
-        color: const Color.fromARGB(255, 188, 201, 69),
-      ),
-    ),
-  ),
+      backgroundColor: const Color(0xFF2E282A),
+      
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Icon(
-                Icons.person_add,
-                size: 80,
-                color: Color.fromARGB(255, 188, 201, 69),
+              SizedBox(height: 20,),
+               Text(
+                "Prepara tu futuro desde aquí",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.freeman(
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-              const SizedBox(height: 40),
-
+              SizedBox(height: 20,),
               // Nombre
               TextField(
-                style: const TextStyle(color: Color(0xFFFFF5D0)), // 👈 Texto escrito
+                style: const TextStyle(color: Colors.white, fontSize: 20),
                 decoration: InputDecoration(
                   labelText: "Nombre completo",
-                  labelStyle: const TextStyle(color: Color(0xFFFFF5D0)), // 👈 Label blanco
+                  labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white), // 👈 Borde blanco
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF8EBD9D)), // 👈 Verde al enfocar
-                  ),
-                  prefixIcon: const Icon(Icons.person, color: Color(0xFFFFF5D0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              // Email
-              TextField(
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  labelStyle: const TextStyle(color: Color(0xFFFFF5D0)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(color: Colors.white),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF8EBD9D)),
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF17BEBB)),
                   ),
-                  prefixIcon: const Icon(Icons.email, color: Color(0xFFFFF5D0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              // Contraseña
-              TextField(
-                obscureText: true,
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
-                decoration: InputDecoration(
-                  labelText: "Contraseña",
-                  labelStyle: const TextStyle(color: Color(0xFFFFF5D0)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF8EBD9D)),
-                  ),
-                  prefixIcon: const Icon(Icons.lock, color: Color(0xFFFFF5D0)),
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              // Confirmar contraseña
-              TextField(
-                obscureText: true,
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
-                decoration: InputDecoration(
-                  labelText: "Confirmar contraseña",
-                  labelStyle: const TextStyle(color: Color(0xFFFFF5D0)),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF8EBD9D)),
-                  ),
-                  prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFFFFF5D0)),
                 ),
               ),
               const SizedBox(height: 30),
 
-              // Botón
+              // Email
+              TextField(
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF17BEBB)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Contraseña
+              TextField(
+                obscureText: true,
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+                decoration: InputDecoration(
+                  labelText: "Contraseña",
+                  labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF17BEBB)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Confirmar contraseña
+              TextField(
+                obscureText: true,
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+                decoration: InputDecoration(
+                  labelText: "Confirmar contraseña",
+                  labelStyle: const TextStyle(color: Colors.white, fontSize: 18),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF17BEBB)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 50),
+
+              // Botón Registrarse
               SizedBox(
-                width: double.infinity,
-                height: 50,
+                height: 60,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF8EBD9D),
-                    foregroundColor: const Color(0xFF1B475D),
+                    backgroundColor: const Color(0xFF17BEBB),
+                    foregroundColor: Colors.white,
+                    textStyle: GoogleFonts.freeman(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   onPressed: () {
@@ -130,21 +121,24 @@ class RegisterScreen extends StatelessWidget {
                     );
                     Navigator.pushReplacementNamed(context, '/login');
                   },
-                  child: const Text(
-                    "Registrarse",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
+                  child: const Text("Registrarse"),
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 25),
 
+              // Texto ¿Ya tienes cuenta?
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/login');
                 },
                 child: const Text(
-                  "¿Ya tienes cuenta? Inicia sesión",
-                  style: TextStyle(color: Color(0xFF8EBD9D), fontSize: 16),
+                  "\n¿Ya tienes cuenta con nosotros?\nInicia sesión\n",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

@@ -34,19 +34,19 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                backgroundColor: const Color(0xFF0D47A1), // mismo azul de fondo
+                backgroundColor: const Color(0xFFE4572E), // mismo azul de fondo
                 title: Text(
                   "Atención",
-                  style: GoogleFonts.righteous(
+                  style: GoogleFonts.freeman(
                     fontSize: 22,
-                    color: const Color(0xFFFAD564),
+                    color: const Color(0xFF2E282A),
                   ),
                 ),
                 content: Text(
                   "Recomendamos aumentar el número de semanas, días u horas para una mejor preparación.",
                   style: GoogleFonts.openSans(
-                    fontSize: 16,
-                    color: const Color(0xFFFFF5D0),
+                    fontSize: 18,
+                    color: const Color(0xFF2E282A),
                   ),
                 ),
                 actions: [
@@ -54,9 +54,9 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                     onPressed: () => Navigator.pop(context),
                     child: Text(
                       "Entendido",
-                      style: GoogleFonts.righteous(
-                        color: const Color(0xFF8EBD9D),
-                        fontSize: 16,
+                      style: GoogleFonts.freeman(
+                        color: const Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 20,
                       ),
                     ),
                   )
@@ -97,48 +97,54 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF002B5B), // azul fuerte
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF002B5B),
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          "Disponibilidad de estudio",
-          style: GoogleFonts.righteous(
-            color: const Color(0xFFb4bd62),
-            fontSize: 30,
-          ),
-        ),
-      ),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255), // azul fuerte
+      
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
               Text(
+                "Disponibilidad de estudio",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.freeman(
+                  fontSize: 42,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF2E282A),
+                ),
+              ),
+              SizedBox(height: 20,),
+
+
+              Text(
                 "¿En cuantos meses presentarás el examen?",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  color: const Color(0xFFfff5d0),
-                  fontSize: 18,
+                style: GoogleFonts.robotoCondensed(
+                  color: const Color(0xFF2E282A),
+                  fontSize: 22,
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: mesesController,
                 keyboardType: TextInputType.number,
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
+                style: const TextStyle(color: Color(0xFF2E282A)),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Ejemplo: 4",
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: const TextStyle(color: Colors.grey),
                   filled: true,
-                  fillColor: Color.fromARGB(26, 225, 215, 215),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  fillColor: const Color.fromARGB(26, 225, 215, 215),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
                   ),
                 ),
               ),
@@ -146,49 +152,59 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               Text(
                 "¿Cuántos días a la semana puedes estudiar?",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  color: const Color(0xFFfff5d0),
-                  fontSize: 18,
+                style: GoogleFonts.robotoCondensed(
+                  color: const Color(0xFF2E282A),
+                  fontSize: 22,
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: diasController,
                 keyboardType: TextInputType.number,
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
+                style: const TextStyle(color: Color(0xFF2E282A)),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Ejemplo: 5",
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: const TextStyle(color: Colors.grey),
                   filled: true,
                   fillColor: Colors.white10,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
                   ),
-                ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
+                  ),      
+                  ),
               ),
               const SizedBox(height: 24),
               Text(
                 "¿Cuántas horas al día?",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                  color: const Color(0xFFfff5d0),
-                  fontSize: 18,
+                style: GoogleFonts.robotoCondensed(
+                  color: const Color(0xFF2E282A),
+                  fontSize: 22,
                 ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: horasController,
                 keyboardType: TextInputType.number,
-                style: const TextStyle(color: Color(0xFFFFF5D0)),
+                style: const TextStyle(color: Color(0xFF2E282A)),
                 textAlign: TextAlign.center,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Ejemplo: 3",
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintStyle: const TextStyle(color: Colors.grey),
                   filled: true,
                   fillColor: Colors.white10,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
                   ),
                 ),
               ),
@@ -197,31 +213,36 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               Text(
                 "¿Qué carrera deseas estudiar?",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                color: Color(0xFFFFF5D0),
-                fontSize: 18,
+                style: GoogleFonts.robotoCondensed(
+                color: Color(0xFF2E282A),
+                fontSize: 25,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               DropdownButtonFormField<String>(
-                dropdownColor: const Color(0xFF002B5B), // fondo azul
+                dropdownColor: const Color(0xFF76B041), // fondo azul
                 initialValue: carreraSeleccionada,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white10,
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    ),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
+                  ),
                 ),
                 hint: const Text(
                   "Selecciona una carrera",
                   style: TextStyle(color: Colors.grey),
                 ),
-                style: const TextStyle(color: Color(0xFFFFF5D0)), // color del texto
+                style: const TextStyle(color: Color(0xFF2E282A)), // color del texto
                 items: carreras.map((carrera) {
                   return DropdownMenuItem(
                   value: carrera,
-                  child: Text(carrera, style: const TextStyle(color: Color(0xFFFFF5D0))),
+                  child: Text(carrera, style: const TextStyle(color: Color(0xFF2E282A))),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -236,31 +257,36 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               Text(
                 "¿En qué universidad quieres ingresar?",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(
-                color: Color(0xFFFFF5D0),
-                fontSize: 18,
+                style: GoogleFonts.robotoCondensed(
+                color: Color(0xFF2E282A),
+                fontSize: 22,
                 ),
               ),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                dropdownColor: const Color(0xFF002B5B),
+                dropdownColor: const Color(0xFF76B041),
                 initialValue: universidadSeleccionada,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white10,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Color(0xFF76B041), width: 4),
+                  ),
                   ),
                   hint: const Text(
                     "Selecciona una universidad",
                     style: TextStyle(color: Colors.grey),
                   ),
-                  style: const TextStyle(color: Color(0xFFFFF5D0)),
+                  style: const TextStyle(color: Color(0xFF2E282A)),
                   items: universidades.map((uni) {
                     return DropdownMenuItem(
                       value: uni,
-                      child: Text(uni, style: const TextStyle(color: Color(0xFFFFF5D0))),
+                      child: Text(uni, style: const TextStyle(color: Color(0xFF2E282A))),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -273,7 +299,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
               const SizedBox(height: 40),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8ebd9d),
+                  backgroundColor: const Color(0xFFFFC914),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                   shape: RoundedRectangleBorder(
@@ -305,7 +331,7 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF8ebd9d),
+                        backgroundColor: const Color(0xFF17BEBB),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 40, vertical: 14),
                           shape: RoundedRectangleBorder(
@@ -317,9 +343,9 @@ class _DisponibilidadScreenState extends State<DisponibilidadScreen> {
                       },
                       child: Text(
                         "Tomar la prueba",
-                        style: GoogleFonts.righteous(
+                        style: GoogleFonts.freeman(
                           fontSize: 20,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),

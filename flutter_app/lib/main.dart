@@ -26,13 +26,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/register',
       routes: {
-        '/register': (context) => const RegisterScreen(),
+        '/register': (context) => const RegistroScreen(),
         '/login': (context) => const LoginScreen(),        
         '/disponibilidad': (context) => const DisponibilidadScreen(),
         '/exam': (context) => const ExamenView(),
         '/home': (context) => const HomeScreen(),
         '/espanol': (context) => const EspanolScreen(),
-        '/biologia': (context) => const BiologiaScreen(),
+        '/biologia': (context) =>  const RecursosScreen(),
       },
     );
   }

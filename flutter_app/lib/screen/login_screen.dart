@@ -1,70 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key}); // 👈 Aquí agregamos el key
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const Color tituloColor = Color(0xFF2E282A); // mismo color para botón y texto
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Iniciar Sesión"),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
+      backgroundColor: Color(0xFFE4572E),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Logo
-            const Icon(
-              Icons.login,
-              size: 80,
-              color: Colors.blue,
+            // Título
+            Text(
+              "Tu meta te espera",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.freeman(
+                fontSize: 50, // más grande
+                fontWeight: FontWeight.bold,
+                color: tituloColor,
+              ),
             ),
-            const SizedBox(height: 40),
-            
+            const SizedBox(height: 60), // espacio arriba y abajo del título
+
             // Campo de email
             TextField(
+              style: const TextStyle(fontSize: 20, color: Colors.black), // letra blanca
               decoration: InputDecoration(
                 labelText: "Email",
+                labelStyle: TextStyle(fontSize: 20, color: tituloColor),
+                filled: true,
+                fillColor: Colors.white, // fondo blanco
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.blue, width: 2),
+                  borderSide: BorderSide(color: tituloColor, width: 2),
                 ),
-                prefixIcon: const Icon(Icons.email, color: Colors.blue),
               ),
             ),
-            const SizedBox(height: 15),
-            
+            const SizedBox(height: 20),
+
             // Campo de contraseña
             TextField(
               obscureText: true,
+              style: const TextStyle(fontSize: 20, color: Colors.black),
               decoration: InputDecoration(
                 labelText: "Contraseña",
+                labelStyle: TextStyle(fontSize: 20, color: tituloColor),
+                filled: true,
+                fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Colors.blue, width: 2),
+                  borderSide: BorderSide(color: tituloColor, width: 2),
                 ),
-                prefixIcon: const Icon(Icons.lock, color: Colors.blue),
               ),
             ),
-            const SizedBox(height: 30),
-            
+            const SizedBox(height: 40),
+
             // Botón de login
             SizedBox(
               width: double.infinity,
-              height: 50,
+              height: 60, // más grande
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
+                  backgroundColor: Color(0xFF17BEBB), // mismo color que el título
+                  foregroundColor: Color(0xFF2E282A), // letra blanca
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -72,22 +81,30 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, '/disponibilidad');
                 },
-                child: const Text(
+                child: Text(
                   "Iniciar Sesión",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: GoogleFonts.freeman(
+                    fontSize: 24, // más grande
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 15),
-            
+            const SizedBox(height: 30),
+
             // Enlace para registro
             TextButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/register');
               },
-              child: const Text(
-                "¿No tienes cuenta? Regístrate",
-                style: TextStyle(color: Colors.blue, fontSize: 16),
+              child: Text(
+                "\n¿No tienes cuenta? \n Regístrate", // salto de línea arriba
+                textAlign: TextAlign.center,
+                style: GoogleFonts.freeman(
+                  fontSize: 22, // más grande
+                  fontWeight: FontWeight.bold,
+                  color: tituloColor, // mismo color que el título
+                ),
               ),
             ),
           ],
