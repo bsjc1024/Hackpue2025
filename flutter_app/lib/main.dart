@@ -6,6 +6,8 @@ import 'screen/exam_ubication.dart';
 import 'screen/home_screen.dart';
 import 'screen/espanol_screen.dart';
 import 'screen/biologia_screen.dart';
+import 'screen/biologia_question.dart';
+import 'screen/espanol_question.dart';
 
 
 void main() {
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomeScreen(),
         '/espanol': (context) => const EspanolScreen(),
         '/biologia': (context) =>  const RecursosScreen(),
+        '/siguiente': (context) => const ExamenBioScreen(),
+        '/siguiente1': (context) => const ExamenEspanolScreen(),
       },
     );
   }
