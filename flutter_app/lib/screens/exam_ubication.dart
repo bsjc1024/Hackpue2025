@@ -336,9 +336,6 @@ class ResultadoScreen extends StatelessWidget {
   final questionsProvider = Provider.of<QuestionsProvider>(context, listen: false);
   questionsProvider.setSkillLevelsFromExam(porcentajeEspanol, porcentajeBiologia);
 
-
-    print(questionsProvider.formData);
-
     return Scaffold(
       backgroundColor: const Color(0xFF1B475D),
       body: Center(
