@@ -7,6 +7,7 @@ import 'screens/disponibilidad_screen.dart';
 import 'screens/exam_ubication.dart';
 import 'providers/user_provider.dart';
 import 'providers/questions_provider.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           '/register': (context) => const RegisterScreen(),
           '/disponibilidad': (context) => const DisponibilidadScreen(),
           '/exam_ubication': (context) => const ExamenView(),
+          '/home': (context) => const HomeScreen(),
         },
       ),
     );

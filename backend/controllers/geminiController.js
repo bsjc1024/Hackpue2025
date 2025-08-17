@@ -1,7 +1,7 @@
-const { GoogleGenAI } = require("@google/generative-ai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const User = require('../models/User');
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const generateResponse = async (req, res) => {
     try {
@@ -129,7 +129,7 @@ const generateResponse = async (req, res) => {
 
         IMPORTANTE: Responde ÚNICAMENTE con el JSON válido para BIOLOGÍA, sin texto adicional`;
 
-        const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
         // Generar ambos planes de estudio en paralelo
         const [resultEspanol, resultBiologia] = await Promise.all([

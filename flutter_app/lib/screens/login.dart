@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       
       // Navigate to home screen
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/disponibilidad');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: ${result['message']}")),
