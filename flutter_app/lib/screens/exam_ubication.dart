@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Examen de Prueba',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: false,
+        useMaterial3: true,
       ),
       home: const ExamenView(),
     );
@@ -23,8 +23,6 @@ class MyApp extends StatelessWidget {
 }
 
 // ---------------- EXAMEN ----------------
-// ignore_for_file: deprecated_member_use
-
 class ExamenView extends StatefulWidget {
   const ExamenView({super.key});
 
@@ -301,68 +299,124 @@ class ResultadoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int correctas = 0;
-    int incorrectas = 0;
+    int correctasBiologia = 0;
+    int incorrectasBiologia = 0;
+    int correctasEspanol = 0;
+    int incorrectasEspanol = 0;
 
+    // Recorremos preguntas
     for (int i = 0; i < preguntas.length; i++) {
-      if (respuestasUsuario[i] == preguntas[i]['respuestaCorrecta']) {
-        correctas++;
+      bool esCorrecta = respuestasUsuario[i] == preguntas[i]['respuestaCorrecta'];
+
+      if (i < 6) {
+        // Preguntas 0 a 5 → Biología
+        if (esCorrecta) {
+          correctasBiologia++;
+        } else {
+          incorrectasBiologia++;
+        }
       } else {
-        incorrectas++;
+        // Preguntas 6 a 11 → Español
+        if (esCorrecta) {
+          correctasEspanol++;
+        } else {
+          incorrectasEspanol++;
+        }
       }
     }
 
-    double porcentaje = (correctas / preguntas.length) * 100;
+    // Calificación por materia
+    double porcentajeBiologia = (correctasBiologia / 6) * 100;
+    double porcentajeEspanol = (correctasEspanol / 6) * 100;
 
-return Scaffold(
-      backgroundColor: const Color(0xFF1B475D), // Fondo igual que antes
+    return Scaffold(
+      backgroundColor: const Color(0xFF1B475D),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Centrado vertical
-          crossAxisAlignment: CrossAxisAlignment.center, // Centrado horizontal
-          children: [
-            Text(
-              "¡Examen terminado!",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.righteous(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFFFAD564),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "¡Examen terminado!",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.righteous(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFFFAD564),
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Text(
-              "Preguntas correctas: $correctas",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.openSans(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFFFFF5D0),
+              const SizedBox(height: 30),
+
+              // ---------- BIOLOGÍA ----------
+              Text(
+                "Biología",
+                style: GoogleFonts.righteous(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF8EBD9D),
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Preguntas incorrectas: $incorrectas",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.openSans(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFFFFF5D0),
+              const SizedBox(height: 10),
+              Text(
+                "Correctas: $correctasBiologia",
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: const Color(0xFFFFF5D0),
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Text(
-              "Calificación: ${porcentaje.toStringAsFixed(1)}%",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.righteous(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFFFAD564),
+              Text(
+                "Incorrectas: $incorrectasBiologia",
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: const Color(0xFFFFF5D0),
+                ),
               ),
-            ),
-          ],
+              Text(
+                "Calificación: ${porcentajeBiologia.toStringAsFixed(1)}%",
+                style: GoogleFonts.righteous(
+                  fontSize: 22,
+                  color: const Color(0xFFFAD564),
+                ),
+              ),
+
+              const SizedBox(height: 40),
+
+              // ---------- ESPAÑOL ----------
+              Text(
+                "Español",
+                style: GoogleFonts.righteous(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF8EBD9D),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Correctas: $correctasEspanol",
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: const Color(0xFFFFF5D0),
+                ),
+              ),
+              Text(
+                "Incorrectas: $incorrectasEspanol",
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  color: const Color(0xFFFFF5D0),
+                ),
+              ),
+              Text(
+                "Calificación: ${porcentajeEspanol.toStringAsFixed(1)}%",
+                style: GoogleFonts.righteous(
+                  fontSize: 22,
+                  color: const Color(0xFFFAD564),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-} 
+}
